@@ -84,7 +84,7 @@ public sealed partial class MetabolizerComponent : Component
     ///     List of metabolizer types that this organ is. ex. Human, Slime, Felinid, w/e.
     /// </summary>
     [DataField]
-    [Access(typeof(MetabolizerSystem), Other = AccessPermissions.ReadExecute)] // FIXME Friends
+    [Access(typeof(MetabolizerSystem), Other = AccessPermissions.ReadWriteExecute)] // FIXME Friends //Euphoria - make everything able to write into this so vampire trait can give organs the metabolisms
     public HashSet<ProtoId<MetabolizerTypePrototype>>? MetabolizerTypes;
 
     /// <summary>
