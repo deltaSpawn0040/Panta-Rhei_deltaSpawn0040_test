@@ -18,7 +18,7 @@ public sealed partial class StomachComponent : Component
     ///     A whitelist for what special-digestible-required foods this stomach is capable of eating.
     /// </summary>
     [DataField]
-    [Access(Other = AccessPermissions.ReadWriteExecute)]
+    [Access(Other = AccessPermissions.ReadWriteExecute)] //Euphoria - Horrible little hack for VampirismSystem to be able to override what a character can and can't digest.
     public EntityWhitelist? SpecialDigestible = null;
 
     /// <summary>
