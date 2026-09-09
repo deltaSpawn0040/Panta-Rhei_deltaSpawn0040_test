@@ -28,7 +28,7 @@ public sealed partial class WeatherSetAtmos : WeatherFunction
     public override void Invoke(EntityManager entMan, EntityUid map, float updateTimeSeconds)
     {
         // Don't want to accidentally apply a map atmosphere to a mob or something... Because SetMapAtmosphere would do that
-        if (!entMan.HasComponent<MapGridComponent>(map))
+        if (!entMan.HasComponent<MapComponent>(map))
             return;
 
         // Small deviations in the contents of the resulting mixture

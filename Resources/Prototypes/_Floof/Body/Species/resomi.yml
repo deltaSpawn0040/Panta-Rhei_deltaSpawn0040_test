@@ -1,7 +1,6 @@
 - type: markingsGroup
   parent: [Undergarments, EuphoriaCommonMarkingLayers]
   id: Resomi
-  onlyGroupWhitelisted: true
   limits: {} # Only common ones
 
 - type: entity
@@ -34,65 +33,69 @@
   - type: HumanoidProfile
     species: Resomi
   - type: Inventory
-    speciesId: Resomi
+    speciesId: resomi
     displacements: &allDisplacements
-      jumpsuit:
+      jumpsuit: &standardDisplacement
         sizeMaps:
-          32: &standardDisplacement
+          32:
             sprite: _Floof/Mobs/Species/Resomi/displacement.rsi
             state: jumpsuit
       eyes:
         sizeMaps:
           32:
-            <<: *standardDisplacement
+            sprite: _Floof/Mobs/Species/Resomi/displacement.rsi
             state: eyes
       gloves:
         sizeMaps:
           32:
-            <<: *standardDisplacement
+            sprite: _Floof/Mobs/Species/Resomi/displacement.rsi
             state: hands
       head:
         sizeMaps:
           32:
-            <<: *standardDisplacement
+            sprite: _Floof/Mobs/Species/Resomi/displacement.rsi
             state: head
       back:
         sizeMaps:
           32:
-            <<: *standardDisplacement
+            sprite: _Floof/Mobs/Species/Resomi/displacement.rsi
             state: back
       ears:
         sizeMaps:
           32:
-            <<: *standardDisplacement
+            sprite: _Floof/Mobs/Species/Resomi/displacement.rsi
             state: ears
-      shoes:
+      shoes: &feetDisplacement
         sizeMaps:
           32:
-            <<: *standardDisplacement
+            sprite: _Floof/Mobs/Species/Resomi/displacement.rsi
             state: feet
       neck:
         sizeMaps:
           32:
-            <<: *standardDisplacement
+            sprite: _Floof/Mobs/Species/Resomi/displacement.rsi
             state: neck
       mask:
         sizeMaps:
           32:
-            <<: *standardDisplacement
+            sprite: _Floof/Mobs/Species/Resomi/displacement.rsi
             state: mask
       suitstorage:
         sizeMaps:
           32:
-            <<: *standardDisplacement
+            sprite: _Floof/Mobs/Species/Resomi/displacement.rsi
             state: suitStorage
       belt:
         sizeMaps:
           32:
-            <<: *standardDisplacement
+            sprite: _Floof/Mobs/Species/Resomi/displacement.rsi
             state: belt
-    femaleDisplacements:
-      <<: *allDisplacements # afaik female resomi use the same displacements as male ones.
+      # We just alias outer clothing and undergarments to the jumpsuit/feet displacements. This isnt perfect, but it works for most clothing.
+      outerClothing: *standardDisplacement
+      undergarmentTop: *standardDisplacement
+      undergarmentBottom: *standardDisplacement
+      undergarmentSocks: *feetDisplacement
+    femaleDisplacements: *allDisplacements # afaik female resomi use the same displacements as male ones.
 
 - type: entity
   parent:
@@ -216,7 +219,7 @@
   abstract: true
   components:
   - type: Sprite
-    sprite: _DV/Mobs/Species/Resomi/parts.rsi # Delta V - Changed to our Sprites
+    sprite: _Floof/Mobs/Species/Resomi/parts.rsi
 
 - type: entity
   parent: [ OrganBaseTorsoSexed, OrganBaseTorso, OrganResomiExternal ]
@@ -225,17 +228,6 @@
 - type: entity
   parent: [ OrganBaseHeadSexed, OrganBaseHead, OrganResomiExternal ]
   id: OrganResomiHead
-  components:
-  - type: VisualOrganMarkings
-    hideableLayers:
-    - enum.HumanoidVisualLayers.Snout
-    - enum.HumanoidVisualLayers.HeadTop
-    - enum.HumanoidVisualLayers.HeadSide
-    - enum.HumanoidVisualLayers.Hair
-    - enum.HumanoidVisualLayers.FacialHair
-    dependentHidingLayers:
-      enum.HumanoidVisualLayers.Snout:
-      - enum.HumanoidVisualLayers.SnoutCover
 
 - type: entity
   parent: [ OrganBaseArmLeft, OrganResomiExternal ]
@@ -278,7 +270,6 @@
   id: OrganResomiEyes
   components:
   - type: VisualOrgan
-    layer: enum.HumanoidVisualLayers.Eyes
     data:
       sprite: Mobs/Customization/eyes.rsi # Delta V - Different eyes
       state: eyes

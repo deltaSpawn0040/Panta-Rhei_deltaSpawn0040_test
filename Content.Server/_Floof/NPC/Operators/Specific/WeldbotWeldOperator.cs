@@ -46,17 +46,18 @@ public sealed partial class WeldbotWeldOperator : HTNOperator
         DamageDict =
         {
             { "Structural", -3 },
+            { "Blunt", -3 },
         }
     };
 
     [DataField]
-    public DamageSpecifier SiliconHealing = new()
+    public DamageSpecifier SiliconHealing = new() // Intentionally WAY less than even a brute pack to compensate for the spammability
     {
         DamageDict =
         {
-            { "Blunt", -5 },
-            { "Slash", -5 },
-            { "Piercing", -5 },
+            { "Blunt", -1.33 },
+            { "Slash", -1.33 },
+            { "Piercing", -1.33 },
         }
     };
 

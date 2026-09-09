@@ -373,7 +373,7 @@
 
 - type: entity
   name: cockroach
-  parent: SimpleMobBase
+  parent: [SimpleMobBase, DVNodeCrawler] # Floofstation - add vent crawling
   id: MobCockroach
   description: This station is just crawling with bugs.
   components:
@@ -429,7 +429,7 @@
     - terrible
     - chewy
   - type: Hunger
-    baseDecayRate: 0.25
+    baseDecayRate: 0.16 # Euph - *0.66
   - type: Extractable
     grindableSolutionName: food
   - type: SolutionContainerManager
@@ -522,6 +522,7 @@
     entries:
       Burger: Mothroach
       Taco: Mothroach
+      Hotdog: Mothroach #Euphoria
   #Euphoria end
   # Begin DeltaV Removals - players can spawn in as these at will
   # - type: GhostRole
@@ -1461,6 +1462,7 @@
     - map: [ "id" ]
     - map: [ "outerClothing" ]
     - map: [ "eyes" ]
+    - map: [ "belt" ]
     - map: [ "neck" ]
     - map: [ "back" ]
     - map: [ "enum.HumanoidVisualLayers.FacialHair" ]
@@ -1470,7 +1472,6 @@
     - map: [ "enum.HumanoidVisualLayers.Wings" ] # Euphoria: Wings under tails
     - map: [ "enum.HumanoidVisualLayers.Tail" ]
     - map: [ "mask" ]
-    - map: [ "belt" ] # Euphoria: Move the belt slot down the chain
     - map: [ "head" ]
     - map: [ "clownedon" ]
       sprite: "Effects/creampie.rsi"
@@ -1600,7 +1601,6 @@
     - map: [ "id" ]
     - map: [ "outerClothing" ]
     - map: [ "mask" ]
-    - map: [ "belt" ] # Euphoria: Move the belt slot down the chain
     - map: [ "head" ]
     - map: [ "clownedon" ]
       sprite: "Effects/creampie.rsi"
@@ -2078,7 +2078,7 @@
       Peckish: 15
       Starving: 10
       Dead: 0
-    baseDecayRate: 0.5 # I'm very hungry! Give me. The cheese.
+    baseDecayRate: 0.2 # I'm very hungry! Give me. The cheese. # Euph - 0.5->0.2 as this makes mice both annoying to play and annoying to deal with
   - type: Extractable
     grindableSolutionName: food
   - type: SolutionContainerManager
@@ -3964,7 +3964,7 @@
     flavors:
     - meaty
   - type: Hunger
-    baseDecayRate: 0.3
+    baseDecayRate: 0.12 # Euph - *2/5 just like the mouse
   - type: Extractable
     grindableSolutionName: food
   - type: SolutionContainerManager

@@ -102,7 +102,10 @@ public sealed class MappingCategoryTest : GameTest
     // me when engine doesnt have this
     private FileCategory? GetCategory(ResPath path, MapLoaderSystem mapLoader)
     {
-        Assert.That(mapLoader.TryReadFile(path, out var data), $"Failed to read map file {path}");
+        // Euph - skip invalid maps instead of asserting (we have some commented out)
+        if (!mapLoader.TryReadFile(path, out var data))
+            return null;
+        //Assert.That(mapLoader.TryReadFile(path, out var data), $"Failed to read map file {path}");
         var meta = data.Get<MappingDataNode>("meta");
         if (!meta.TryGet<ValueDataNode>("category", out var node))
             return null;

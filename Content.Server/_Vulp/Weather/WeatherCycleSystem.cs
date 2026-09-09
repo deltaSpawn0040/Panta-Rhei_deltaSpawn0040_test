@@ -1,15 +1,15 @@
 using System.Linq;
 using Content.Server.Weather;
+using Content.Shared._Floof.CCVar;
 using Content.Shared._Vulp.Weather;
 using Content.Shared.StatusEffectNew.Components;
 using Content.Shared.Weather;
+using Robust.Shared.Configuration;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
-using Robust.Shared.Utility;
-
 
 namespace Content.Server._Vulp.Weather;
 
@@ -21,6 +21,7 @@ public sealed class WeatherCycleSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _protoMan = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedMapSystem _maps = default!;
+    [Dependency] private readonly IConfigurationManager _cfg = default!;
 
     public override void Initialize()
     {
@@ -61,6 +62,9 @@ public sealed class WeatherCycleSystem : EntitySystem
 
     public override void Update(float frameTime)
     {
+        if (!_cfg.GetCVar(FloofCCVars.WeatherCycleEnabled))
+            return;
+
         var query = EntityQueryEnumerator<WeatherCycleComponent, MapComponent>();
 
         while (query.MoveNext(out var uid, out var weatherCycle, out var map))
@@ -125,7 +129,6 @@ public sealed class WeatherCycleSystem : EntitySystem
 
     /// <summary>
     ///     Transitions the weather on the map associated with this weather cycle into the specified state.
-    ///     Does NOT clear the old weather!
     /// </summary>
     public void SetState(Entity<WeatherCycleComponent> ent, WeatherCycleData state)
     {
@@ -133,13 +136,22 @@ public sealed class WeatherCycleSystem : EntitySystem
         var isRepeatedTraversal = state == oldState;
 
         var duration = TimeSpan.FromSeconds(state.DurationSeconds.Next(_random) * ent.Comp.TimeScale);
-        ent.Comp.NextWeather = _timing.CurTime + duration;
+        ent.Comp.NextWeather = _timing.CurTime + duration - SharedWeatherSystem.StartupTime; // Start fading the new weather in just as the old one starts to fade out
         ent.Comp.CurrentState = state;
 
         var proto = state.Proto == null ? null : _protoMan.TryIndex(state.Proto, out var weather) ? weather : null;
-        if (Transform(ent).MapID is { } map && proto is not null)
+        if (Transform(ent).MapID is { } map)
         {
-            _weather.TryAddWeather(map, proto, out var weatherEnt, duration);
+            // Clear the old weather
+            if (ent.Comp.CurrentWeatherEntity is { } oldWeatherEnt && oldState?.Proto != null)
+                _weather.TryRemoveWeather(map, oldState.Proto.Value); // Rn there's no way to directly modify the status effect entity.
+
+            // And add the new one
+            if (proto is not null)
+            {
+                _weather.TryAddWeather(map, proto, out var weatherEnt, duration);
+                ent.Comp.CurrentWeatherEntity = weatherEnt;
+            }
         }
 
         // Run any transition functions on the new state

@@ -80,7 +80,7 @@
         Base: splat
   - type: Edible
   - type: Hunger
-    baseDecayRate: 0.1
+    baseDecayRate: 0.066 # Euph - * 0.66
   - type: Extractable
     grindableSolutionName: food
   - type: SolutionContainerManager
@@ -183,5 +183,6 @@
       Taco: RatTaco
       Burger: RatBurger
       Skewer: RatSkewer
+      Hotdog: RatTaco #Euphoria
   - type: Item # Euphoria | Pick up mouse
     size: Tiny

@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.Preferences;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
@@ -37,19 +38,24 @@ public sealed class HumanoidProfileMigrationsManager : IHumanoidProfileMigration
     /// </summary>
     private Dictionary<List<YamlPathParser.Part>, Action<ProfileMigrationContext>> _simpleMigrations = new();
 
-    private ISawmill Log = null!;
-
-    public void Initialize()
+    // Species migrations (old -> new)
+    Dictionary<string, ProtoId<SpeciesPrototype>> _speciesMigrationMap = new()
     {
-        Log = Logger.GetSawmill("profile.migrations");
+        { "Shadowkin", "Shadekin" }, // 2026-08-30 - EE shadowkin replaced with Starlight shadekin
+    };
+
+    private ISawmill Log { get => field ??= Logger.GetSawmill("profile.migrations");  }
+
+    public HumanoidProfileMigrationsManager()
+    {
         _simpleMigrations.Clear();
 
         // Height was renamed
-        AddMigration("/height", ctx => { ctx.Profile.Height = ctx.ExtractedNode.AsFloat(); });
+        AddMigration("/profile/height", ctx => { ctx.Profile.Height = ctx.ExtractedNode.AsFloat(); });
 
         // During the loadouts rework, trait preferences were changed from simple ProtoIds to "{Prototype: <id>}" strings with plans to extend the format.
         // This only affects SOME profiles, but not all of them.
-        AddMigration("/_traitPreferences", ctx => {
+        AddMigration("/profile/_traitPreferences", ctx => {
             if (ctx.ExtractedNode is not YamlSequenceNode sequence)
                 return;
 
@@ -63,6 +69,13 @@ public sealed class HumanoidProfileMigrationsManager : IHumanoidProfileMigration
                 if (match.Success)
                     ctx.Profile = ctx.Profile.WithTraitPreference(match.Groups[1].Value, _protoMan);
             }
+        });
+
+        // Species migrations
+        AddMigration("/profile/species", ctx =>
+        {
+            if (_speciesMigrationMap.TryGetValue(ctx.Profile.Species, out var replacementSpecies))
+                ctx.Profile.Species = replacementSpecies;
         });
     }
 

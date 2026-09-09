@@ -29,7 +29,8 @@ public sealed class WaggingSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<WaggingComponent, MapInitEvent>(OnWaggingMapInit);
-        SubscribeLocalEvent<WaggingComponent, AppearanceLoadedEvent>(OnWaggingMapInit); // Floofstation - listen on profile load as well as map init
+        SubscribeLocalEvent<WaggingComponent, ApplyOrganProfileDataEvent>(OnWaggingMapInit); // Floofstation - listen on profile load as well as map init
+        SubscribeLocalEvent<WaggingComponent, ApplyOrganMarkingsEvent>(OnWaggingMapInit, after: [typeof(SharedVisualBodySystem)]); // Floofstation - listen on profile load as well as map init
         SubscribeLocalEvent<WaggingComponent, ComponentShutdown>(OnWaggingShutdown);
         SubscribeLocalEvent<WaggingComponent, ToggleActionEvent>(OnWaggingToggle);
         SubscribeLocalEvent<WaggingComponent, MobStateChangedEvent>(OnMobStateChanged);
@@ -149,12 +150,6 @@ public sealed class WaggingSystem : EntitySystem
             }
         }
 
-        if (!_prototype.HasIndex<MarkingPrototype>(newMarkingId))
-        {
-            Log.Warning($"{ToPrettyString(ent):ent} tried toggling wagging but {newMarkingId} marking doesn't exist");
-            return false;
-        }
-
         if (_prototype.HasIndex<MarkingPrototype>(newMarkingId))
             return true;
 
@@ -167,7 +162,8 @@ public sealed class WaggingSystem : EntitySystem
     // Checks if the entity can wag
     public bool CanWag(Entity<WaggingComponent> ent)
     {
-        if (!_visualBody.TryGatherMarkingsData(ent.Owner, [ent.Comp.Layer], out var _, out var _, out var applied))
+        if (!TryComp<VisualBodyComponent>(ent, out var visBodyComp)
+            || !_visualBody.TryGatherMarkingsData((ent.Owner, visBodyComp), [ent.Comp.Layer], out var _, out var _, out var applied))
             return false;
 
         if (!applied.TryGetValue(ent.Comp.Organ, out var markingsSet))

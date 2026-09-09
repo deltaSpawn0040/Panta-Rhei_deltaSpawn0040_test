@@ -43,10 +43,10 @@ namespace Content.Shared.Humanoid
         RArmExtension, // Frontier: a species-specific extension layer, e.g. for harpy wings
         // Begin Euphoria additions
         TailOverlay,
-        TaurBodyConnector,// Required as "Mini-framework" for tauric species
-        TaurBody, // Required as "Mini-framework" for tauric species
         TailBehind,
         TailOversuit,
+        ChestBelow1, // Extra layers below the chest
+        ChestBelow2,
         // End Euphoria additions
     }
 }
