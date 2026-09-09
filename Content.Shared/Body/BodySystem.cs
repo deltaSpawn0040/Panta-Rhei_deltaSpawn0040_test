@@ -37,6 +37,7 @@ public sealed partial class BodySystem : EntitySystem
         _organQuery = GetEntityQuery<OrganComponent>();
 
         InitializeRelay();
+        InitializeOrganManipulation(); // Euphoria - For BodySystem.OrganManipulation.cs
     }
 
     private void OnBodyInit(Entity<BodyComponent> ent, ref ComponentInit args)
