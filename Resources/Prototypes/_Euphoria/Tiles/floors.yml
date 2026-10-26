@@ -1,0 +1,62 @@
+- type: tile
+  id: FloorLunarRegolith
+  name: tiles-lunar-regolith
+  sprite: /Textures/_Euphoria/Tiles/astro-lunar-regolith.rsi/LunarRegolith.png
+  variants: 12
+  placementVariants:
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  baseTurf: Space
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepAsteroid
+  heatCapacity: 10000
+  weather: true
+
+- type: tile
+  parent: BaseStationTile
+  id: FloorFauxLunarRegolith
+  name: tiles-faux-lunar-regolith
+  description: And guess what? Ground up moondust is pure poison. The station is deathly ill.
+  sprite: /Textures/_Euphoria/Tiles/astro-lunar-regolith.rsi/LunarRegolith.png
+  variants: 12
+  placementVariants:
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  - 0.0833333333333
+  edgeSpritePriority: 1
+  edgeSprites:
+    SouthEast: /Textures/_Euphoria/Tiles/astro-lunar-regolith.rsi/LunarRegolith-edge-corner.png
+    NorthEast: /Textures/_Euphoria/Tiles/astro-lunar-regolith.rsi/LunarRegolith-edge-corner.png
+    NorthWest: /Textures/_Euphoria/Tiles/astro-lunar-regolith.rsi/LunarRegolith-edge-corner.png
+    SouthWest: /Textures/_Euphoria/Tiles/astro-lunar-regolith.rsi/LunarRegolith-edge-corner.png
+    South: /Textures/_Euphoria/Tiles/astro-lunar-regolith.rsi/LunarRegolith-edge.png
+    East: /Textures/_Euphoria/Tiles/astro-lunar-regolith.rsi/LunarRegolith-edge.png
+    North: /Textures/_Euphoria/Tiles/astro-lunar-regolith.rsi/LunarRegolith-edge.png
+    West: /Textures/_Euphoria/Tiles/astro-lunar-regolith.rsi/LunarRegolith-edge.png
+  baseTurf: Plating
+  deconstructTools: [ Prying ]
+  itemDrop: FloorTileItemLunarRegolith
+  footstepSounds:
+    collection: FootstepAsteroid
+  heatCapacity: 10000
+  weather: true
