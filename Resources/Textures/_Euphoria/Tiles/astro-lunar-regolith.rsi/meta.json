@@ -1,0 +1,31 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Made by themageofmicrosoftpaints (Github/Discord) for use in Euphoria.",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "Lunar-inhand-left",
+            "directions": 4
+        },
+        {
+            "name": "Lunar-inhand-right",
+            "directions": 4
+        },
+        {
+            "name": "LunarRegolith-edge-corner"
+        },
+        {
+            "name": "LunarRegolith-edge"
+        },
+        {
+            "name": "LunarRegolith"
+        },
+        {
+            "name": "LunarRegolith-icon"
+        }
+    ]
+}
