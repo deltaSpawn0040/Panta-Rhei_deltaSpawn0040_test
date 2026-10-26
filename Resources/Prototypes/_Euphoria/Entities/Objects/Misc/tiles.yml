@@ -1,4 +1,4 @@
-﻿# mushwood floor
+# mushwood floor
 - type: entity
   name: mushwood floor
   parent: FloorTileItemBase
@@ -41,3 +41,30 @@
   id: MushWoodFloorBroken
   name: mushwood floor broken
   sprite: /Textures/_Euphoria/Tiles/mushwood-floor-broken.png
+
+# Astro Lunar Regolith
+- type: entity
+  name: Lunar Regolith Floor
+  description: The bean counters told me we literally could not afford seven spesos worth of moondust, much less seventy million. Bought it anyway, ground it up, turned it into a floor tile!
+  parent: FloorTileItemBase
+  id: FloorTileItemLunarRegolith
+  components:
+  - type: Sprite
+    sprite: /Textures/_Euphoria/Tiles/astro-lunar-regolith.rsi
+    state: LunarRegolith-icon
+  - type: Item
+    heldPrefix: asteroid
+  - type: FloorTile
+    outputs:
+    - FloorFauxLunarRegolith
+  - type: Stack
+    stackType: StackFloorTileLunarRegolith
+  # - type: Construction
+  #   graph: TileMushWood
+  #   node: mushwoodtile
+
+- type: stack
+  id: StackFloorTileLunarRegolith
+  name: tiles-lunar-regolith
+  spawn: FloorTileItemLunarRegolith
+  maxCount: 30
